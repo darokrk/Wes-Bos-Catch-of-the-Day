@@ -15,7 +15,6 @@ class App extends Component {
   componentDidMount() {
     const { params } = this.props.match;
     const localStorageRef = localStorage.getItem(params.storeId);
-    console.log(localStorageRef);
     if (localStorageRef) {
       this.setState({
         order: JSON.parse(localStorageRef)
@@ -28,7 +27,6 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    console.log(this.state.order);
     localStorage.setItem(
       this.props.match.params.storeId,
       JSON.stringify(this.state.order)
