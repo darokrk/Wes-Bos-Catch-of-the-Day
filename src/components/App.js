@@ -77,7 +77,7 @@ class App extends Component {
         <Inventory
           addFish={this.addFish}
           loadSampleFishes={this.loadSampleFishes}
-          fish={this.state.fishes}
+          fishes={this.state.fishes}
         />
       </div>
     );
