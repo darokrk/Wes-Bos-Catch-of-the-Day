@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import firebase from "firebase";
 import AddFishForm from "./AddFishForm";
 import EditFishForm from "./EditFishForm";
 import Login from "./Login";
+import { firebaseApp } from "../base";
 
 class Inventory extends Component {
   static propTypes = {
@@ -19,7 +21,13 @@ class Inventory extends Component {
     loadSampleFishes: PropTypes.func
   };
 
-  authenticate = provider => {};
+  authenticate = provider => {
+    const authProvider = new firebase.auth[`${provider}authProvider`]();
+    firebaseApp
+      .auth()
+      .signInWithPopup(authProvider)
+      .then(this.authHandler);
+  };
 
   render() {
     return <Login authenticate={this.authenticate} />;
