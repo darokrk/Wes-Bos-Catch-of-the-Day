@@ -47,6 +47,13 @@ class Inventory extends Component {
       .then(this.authHandler);
   };
 
+  logout = async () => {
+    await firebase.auth().signOut();
+    this.setState({
+      uid: null
+    });
+  };
+
   render() {
     const logout = <button onClick={this.logout}>Log Out!</button>;
     if (!this.state.uid) {
