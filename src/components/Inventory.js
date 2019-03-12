@@ -4,7 +4,7 @@ import firebase from "firebase";
 import AddFishForm from "./AddFishForm";
 import EditFishForm from "./EditFishForm";
 import Login from "./Login";
-import { firebaseApp } from "../base";
+import base, { firebaseApp } from "../base";
 
 class Inventory extends Component {
   static propTypes = {
@@ -21,8 +21,26 @@ class Inventory extends Component {
     loadSampleFishes: PropTypes.func
   };
 
+  state = {
+    uid: null,
+    owner: null
+  };
+
+  authHandler = async authData => {
+    const store = await base.fetch(this.props.storeId, { context: this });
+    if (!store.owner) {
+      await base.post(`${this.props.storeId}/owner`, {
+        data: authData.user.uid
+      });
+    }
+    this.setState({
+      uid: authData.user.uid,
+      owner: store.owner || authData.user.id
+    });
+  };
+
   authenticate = provider => {
-    const authProvider = new firebase.auth[`${provider}authProvider`]();
+    const authProvider = new firebase.auth[`${provider}AuthProvider`]();
     firebaseApp
       .auth()
       .signInWithPopup(authProvider)
@@ -30,7 +48,16 @@ class Inventory extends Component {
   };
 
   render() {
-    return <Login authenticate={this.authenticate} />;
+    if (!this.state.uid) {
+      return <Login authenticate={this.authenticate} />;
+    }
+    if (this.state.uid !== this.state.owner) {
+      return (
+        <div>
+          <p>Sorry you are not the owner!</p>
+        </div>
+      );
+    }
     return (
       <div className="inventory">
         <h2>Inventory</h2>
