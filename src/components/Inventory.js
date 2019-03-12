@@ -48,6 +48,7 @@ class Inventory extends Component {
   };
 
   render() {
+    const logout = <button onClick={this.logout}>Log Out!</button>;
     if (!this.state.uid) {
       return <Login authenticate={this.authenticate} />;
     }
@@ -55,12 +56,14 @@ class Inventory extends Component {
       return (
         <div>
           <p>Sorry you are not the owner!</p>
+          {logout}
         </div>
       );
     }
     return (
       <div className="inventory">
         <h2>Inventory</h2>
+        {logout}
         {Object.keys(this.props.fishes).map(key => (
           <EditFishForm
             key={key}
