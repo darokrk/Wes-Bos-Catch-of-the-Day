@@ -26,6 +26,14 @@ class Inventory extends Component {
     owner: null
   };
 
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.authHandler({ user });
+      }
+    });
+  }
+
   authHandler = async authData => {
     const store = await base.fetch(this.props.storeId, { context: this });
     if (!store.owner) {
@@ -56,6 +64,7 @@ class Inventory extends Component {
 
   render() {
     const logout = <button onClick={this.logout}>Log Out!</button>;
+
     if (!this.state.uid) {
       return <Login authenticate={this.authenticate} />;
     }
