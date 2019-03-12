@@ -18,8 +18,11 @@ class Inventory extends Component {
     deleteFish: PropTypes.func,
     loadSampleFishes: PropTypes.func
   };
+
+  authenticate = provider => {};
+
   render() {
-    return <Login />;
+    return <Login authenticate={this.authenticate} />;
     return (
       <div className="inventory">
         <h2>Inventory</h2>
