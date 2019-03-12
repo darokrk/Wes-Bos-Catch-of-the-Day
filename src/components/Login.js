@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const Login = () => (
   <nav className="login">
@@ -24,5 +25,9 @@ const Login = () => (
     </button>
   </nav>
 );
+
+Login.propTypes = {
+  authenticate: PropTypes.func.isRequired
+};
 
 export default Login;
